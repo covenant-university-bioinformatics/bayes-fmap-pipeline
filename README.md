@@ -63,13 +63,20 @@ tar xvf finemap_v1.4_MacOSX.tgz
 ```
 
 ## TO RUN THE PIPELINE
-
+#Real Data
 ```
-./pipeline.sh ~/pGWAS/data/AFR/boltlmm_sumstats.gz susie Null 327209 ~/data AFR 1 46000001 49000001 5
+
+./pipeline.sh ~/user/summart_stat susie Null 327209 AFR 1 46000001 49000001 5 0.6 0.001
 ```
 #Teting with small file
 ```
-#~/pGWAS/./pipeline.sh ~/pGWAS/data/test_data/boltlmm_sumstats.gz finemap Null 327209 test_data 1 46000001 49000001 5
+#./pipeline.sh ~/user/data/test_data/boltlmm_sumstats.gz susie Null 327209 test_data 1 46000001 49000001 5 0.6 0.001
+
+#./pipeline.sh ~/user/data/test_data/boltlmm_sumstats.gz finemap Null 327209 test_data 1 46000001 49000001 5 0.6 0.001
+
+
+
+
 ```
 <br><br>
 

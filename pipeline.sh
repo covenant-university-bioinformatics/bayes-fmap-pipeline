@@ -142,7 +142,7 @@ if [ -f $output/$sumstatfile ];then
 fi
 
 #To execute the pipeline ...
-#./pipeline.sh ~/pGWAS/data/AFR/boltlmm_sumstats.gz susie Null 327209 ~/data AFR 1 46000001 49000001 5
+#./pipeline.sh ~/pGWAS/data/AFR/boltlmm_sumstats.gz susie Null 327209 AFR 1 46000001 49000001 5
 #Teting with small file
 #~/pGWAS/./pipeline.sh ~/pGWAS/data/test_data/boltlmm_sumstats.gz finemap Null 327209 test_data 1 46000001 49000001 5
 
