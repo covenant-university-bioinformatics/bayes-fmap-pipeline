@@ -1,0 +1,22 @@
+[INFO]  Reading sumstats file...
+[INFO]  Done in 3.20 seconds
+[INFO]  194694 SNPs are in the sumstats file
+[INFO]  NumExpr defaulting to 2 threads.
+[INFO]  Removing 11022 SNPs with INFO<0.60
+[INFO]  Removing 32676 SNPs with MAF<0.001
+[INFO]  Removing 57 HLA SNPs
+[INFO]  151691 SNPs with sumstats remained after all filtering stages
+[INFO]  Effective sample size is 382406
+[INFO]  Saving munged sumstats of 151691 SNPs to /home/sadeeq/pGWAS/data/output/sumstats.parquet
+[INFO]  Done
+[INFO]  Reading sumstats file...
+[INFO]  Done in 2.84 seconds
+[INFO]  194694 SNPs are in the sumstats file
+[INFO]  NumExpr defaulting to 2 threads.
+[INFO]  Removing 11022 SNPs with INFO<0.60
+[INFO]  Removing 32676 SNPs with MAF<0.001
+[INFO]  Removing 57 HLA SNPs
+[INFO]  151691 SNPs with sumstats remained after all filtering stages
+[INFO]  Effective sample size is 382406
+[INFO]  Saving munged sumstats of 151691 SNPs to /home/sadeeq/pGWAS/data/output/sumstats.parquet
+[INFO]  Done
