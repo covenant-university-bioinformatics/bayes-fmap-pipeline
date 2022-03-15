@@ -20,27 +20,27 @@ dir=/mnt/d/fmapping/finemapping/data
 #input directory contains, e.g summary statistics, annotation, reference genome, LD score
 #will combine pop folder with input directory to point to the population specific directory
 #will combine input directory with binary_dir to point to a specific Python script
-output=$dir/output3 # Output directory
 #put output folder, dir to the top
 #path to the sumstat. given by user
 sumstats=$1 #~/data/AFR/boltlmm_sumstats.gz for testing
+output=$2 # Output directory
 #Fine-mapping methods: susie, FINEMAP
-method=$2 #susie or finemap. default method is susie
+method=$3 #susie or finemap. default method is susie
 #Null, One, Two
 #If Null, i.e no Functionally informed fine mapping
-PriorType=$3
+PriorType=$4
 # n is the sample size used to generate summary statistics $3
-n=$4 #327209  from testing sumstat file
+n=$5 #327209  from testing sumstat file
 
-pop=$5 #Population folders: AFR, EUR, NAM, EAS, SAS, Correct this
+pop=$6 #Population folders: AFR, EUR, NAM, EAS, SAS, Correct this
 
-chr=$6 # the specific chromosome we intend to finemap e.g chr1, chr2,....
+chr=$7 # the specific chromosome we intend to finemap e.g chr1, chr2,....
 #the start and end positions of the target locus to finemap on a given chromosome
-start=$7 #46000001
-end=$8 #4900000
-max_num_causal=$( if [ ! $9 = "" ]; then echo $9;  else echo 5;fi)
-mininfo=${10} #0.6
-minmaf=${11} #0.001
+start=$8 #46000001
+end=$9 #4900000
+max_num_causal=$( if [ ! $10 = "" ]; then echo $10;  else echo 5;fi)
+mininfo=${11} #0.6
+minmaf=${12} #0.001
 
 #The two methods allow to specify the expected causal variant e.g defualt value is 5
 
