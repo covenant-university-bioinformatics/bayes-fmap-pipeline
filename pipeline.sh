@@ -143,6 +143,8 @@ if [ -f $output/$sumstatfile ];then
     cat $output/finemap.$start.$end.gz | zcat | head
 fi
 
+
+
 #To execute the pipeline ...
 #./pipeline.sh ~/pGWAS/data/AFR/boltlmm_sumstats.gz susie Null 327209 AFR 1 46000001 49000001 5
 #Teting with small file

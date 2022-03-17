@@ -74,6 +74,8 @@ tar xvf finemap_v1.4_MacOSX.tgz
 
 #./pipeline.sh ~/user/data/test_data/boltlmm_sumstats.gz output finemap Null 327209 test_data 1 46000001 49000001 5 0.6 0.001
 
+./pipeline.sh boltlmm_sumstats.gz output susie Two 327209 AFR 1 46000001 49000001 5 0.6 0.001
+
 
 
 ```
