@@ -85,22 +85,22 @@ if [ "$PriorType" = 'Two' ]; then
         --skip-Ckmedian\
         --num-bins 20\
 
-        #Step 2. Compute LD-scores for each SNP bin
-        echo "2. Compute LD-scores for each SNP bin"
-        echo "Creating BASH commands for multiprocess"
-        #remove the commands from path if already exist
-        rm -f $dir/$pop/ldscorebin.txt
-        for chr in {1..22}; do echo python $dir/binary_dir/polyfun.py --compute-ldscores --output-prefix $output/testrun --bfile-chr $dir/$pop/reference. --chr $chr >> $dir/$pop/ldscorebin.txt; done
-        #Call multiproces
-        ./multiprocess.sh $dir/$pop/ldscorebin.txt
-        #3. Re-estimate per-SNP heritabilities via S-LDSC
-        echo "3. Re-estimate per-SNP heritabilities via S-LDSC"
-        python $dir/binary_dir/polyfun.py \
-            --compute-h2-bins \
-            --output-prefix $output/testrun \
-            --sumstats $output/sumstats.parquet \
-            --w-ld-chr $dir/$pop/weights.
-        cat $output/testrun.$chr.snpvar_constrained.gz | zcat | head
+    #Step 2. Compute LD-scores for each SNP bin
+    echo "2. Compute LD-scores for each SNP bin"
+    echo "Creating BASH commands for multiprocess"
+    #remove the commands from path if already exist
+    rm -f $dir/$pop/ldscorebin.txt
+    for chr in {1..22}; do echo python $dir/binary_dir/polyfun.py --compute-ldscores --output-prefix $output/testrun --bfile-chr $dir/$pop/reference. --chr $chr >> $dir/$pop/ldscorebin.txt; done
+    #Call multiproces
+    ./multiprocess.sh $dir/$pop/ldscorebin.txt
+    #3. Re-estimate per-SNP heritabilities via S-LDSC
+    echo "3. Re-estimate per-SNP heritabilities via S-LDSC"
+    python $dir/binary_dir/polyfun.py \
+        --compute-h2-bins \
+        --output-prefix $output/testrun \
+        --sumstats $output/sumstats.parquet \
+        --w-ld-chr $dir/$pop/weights.
+    cat $output/testrun.$chr.snpvar_constrained.gz | zcat | head
 fi
 
 echo "FINE-MAPPING STARTS FROM HERE"
