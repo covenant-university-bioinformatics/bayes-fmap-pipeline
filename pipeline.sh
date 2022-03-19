@@ -95,7 +95,7 @@ if [ "$PriorType" = 'Two' ]; then
 
     $dir/binary_dir/multiprocess.sh $dir/$pop/ldscorebin.txt
 
-    ./multiprocess.sh $dir/$pop/ldscorebin.txt
+    #./multiprocess.sh $dir/$pop/ldscorebin.txt
 
     #3. Re-estimate per-SNP heritabilities via S-LDSC
     echo "3. Re-estimate per-SNP heritabilities via S-LDSC"
