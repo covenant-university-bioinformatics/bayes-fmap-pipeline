@@ -145,6 +145,7 @@ if [ -f $output/$sumstatfile ];then
         $(if [ $PriorType = 'Null' ]; then echo '--non-funct';fi)\
         --allow-missing
     cat $output/finemap.$start.$end.gz | zcat | head
+    rm $output/*testrun* $output/*sumstats* -r $output/LD_cache
 fi
 
 
