@@ -5,9 +5,10 @@ WORKDIR /app
 # Create the environment:
 COPY polyfun.yml .
 RUN conda env create -f polyfun.yml
+RUN  conda activate pGWAS
 RUN chmod 775 pipeline.sh
 # Make RUN commands use the new environment:
-RUN echo "conda activate polyfun" >> ~/.bashrc
+RUN echo "conda activate pGWAS" >> ~/.bashrc
 #SHELL ["/bin/bash", "--login", "-c"]
 
 
