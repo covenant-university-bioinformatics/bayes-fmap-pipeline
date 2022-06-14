@@ -1,4 +1,4 @@
-FROM python:3.8-bullseye
+FROM continuumio/miniconda3
 
 ENV CI=true
 ENV PIP_IGNORE_INSTALLED=0
@@ -8,26 +8,12 @@ WORKDIR /app
 #update linux packages
 RUN apt update
 
-#install R 4.0
-RUN apt-get -y install --no-install-recommends --no-install-suggests gnupg2 gnupg1 ca-certificates software-properties-common
-RUN apt-get -y install dirmngr gnupg apt-transport-https ca-certificates software-properties-common
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-RUN add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran36/'
-RUN apt-get install -y r-base
-
-
-#install python packages
-COPY requirements.txt ./
-RUN pip3 install --no-cache-dir -r requirements.txt
-
-#install R and packages
-RUN apt-get install -y libgsl-dev
-COPY r_packages.txt ./
-RUN xargs apt-get install -qq -y <r_packages.txt
-RUN R -e "install.packages(c('RcppGSL','RcppZiggurat','Rfast'),dependencies=TRUE,repos='http://cran.rstudio.com/')"
-RUN R -e "install.packages(c('mixsqp'),dependencies=TRUE,repos='http://cran.rstudio.com/')"
-RUN R -e "install.packages(c('susieR'),dependencies=TRUE,repos='http://cran.rstudio.com/')"
-RUN R -e "install.packages(c('Ckmeans.1d.dp'),dependencies=TRUE,repos='http://cran.rstudio.com/')"
+# Create the environment:
+COPY polyfun.yml .
+RUN conda env create -f polyfun.yml
+RUN  conda activate pGWAS
+# Make RUN commands use the new environment:
+# RUN echo "conda activate pGWAS" >> ~/.bashrc
 
 #install node and npm
 ENV NODE_VERSION=16.13.0

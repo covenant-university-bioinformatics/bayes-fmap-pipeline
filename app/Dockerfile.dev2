@@ -1,0 +1,84 @@
+#FROM node:16
+FROM python:3.8-bullseye
+
+ENV CI=true
+ENV PIP_IGNORE_INSTALLED=0
+
+WORKDIR /app
+
+#update linux packages
+RUN apt update
+
+#install R 4.0
+RUN apt-get -y install --no-install-recommends --no-install-suggests gnupg2 gnupg1 ca-certificates software-properties-common
+RUN apt-get -y install dirmngr gnupg apt-transport-https ca-certificates software-properties-common
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+RUN add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran36/'
+RUN apt-get install -y r-base
+
+RUN R --version
+
+#upgrade python
+#RUN add-apt-repository ppa:deadsnakes/ppa
+#RUN rm /usr/bin/python3
+#RUN ln -s python3.9 /usr/bin/python3
+#RUN apt-get -y install python3.6
+RUN python --version
+RUN python3 --version
+
+#install pip3
+#RUN apt-get install -y python3-pip
+
+#install mini conda
+#RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh \
+#                && /bin/bash ~/miniconda.sh -b -p /opt/conda
+#RUN export PATH=$PATH:/opt/conda/bin
+
+#install python packages
+COPY requirements.txt ./
+RUN pip3 install --no-cache-dir -r requirements.txt
+#RUN /opt/conda/bin/conda config --append channels conda-forge
+#RUN /opt/conda/bin/conda install -y --file requirements.txt python=3.6
+#RUN export PYTHONPATH=$PYTHONPATH:/opt/conda/pkgs
+#install ckmeans
+#RUN /opt/conda/bin/conda install -y -c conda-forge r-ckmeans.1d.dp python=3.9
+
+#install R and packages
+#RUN apt-get install -y r-base
+RUN apt-get install -y libgsl-dev
+COPY r_packages.txt ./
+#RUN xargs -r -a r_packages.txt apt-get install -qq -y
+RUN xargs apt-get install -qq -y <r_packages.txt
+#RUN apt-get install -y -qq \
+#    	r-cran-fs \
+#    	r-cran-irlba
+
+RUN R -e "install.packages(c('RcppGSL','RcppZiggurat','Rfast'),dependencies=TRUE,repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages(c('mixsqp'),dependencies=TRUE,repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages(c('susieR'),dependencies=TRUE,repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages(c('Ckmeans.1d.dp'),dependencies=TRUE,repos='http://cran.rstudio.com/')"
+#install node and npm
+ENV NODE_VERSION=16.13.0
+RUN apt install -y curl
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+ENV NVM_DIR=/root/.nvm
+RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
+ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+RUN node --version
+RUN npm --version
+
+
+COPY package.json ./
+
+RUN npm install
+
+COPY ./ ./
+
+#remove windows line endings
+RUN apt-get install -y dos2unix
+RUN dos2unix pipeline_scripts/pipeline.sh
+RUN chmod 775 pipeline_scripts/pipeline.sh
+
+CMD [ "npm", "run", "start:dev" ]
