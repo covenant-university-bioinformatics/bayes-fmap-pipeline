@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 #Functionally informed fine mapping
 #Specifically, the fine-mapping script takes two types of inputs:
 #1. A summary statistics file with the following columns: SNP, CHR, BP, A1, A2, Z (Z-score),
@@ -14,9 +14,9 @@
 #***********************************************************************************************************************
 
 set -x
-
+echo "START" `date`
 #dir=~/pGWAS/data #directory to the input files i.e population files and python files
-dir=/mnt/d/fmapping/finemapping/data
+dir=/local/datasets/fmapping
 #input directory contains, e.g summary statistics, annotation, reference genome, LD score
 #will combine pop folder with input directory to point to the population specific directory
 #will combine input directory with binary_dir to point to a specific Python script
@@ -38,7 +38,11 @@ chr=$7 # the specific chromosome we intend to finemap e.g chr1, chr2,....
 #the start and end positions of the target locus to finemap on a given chromosome
 start=$8 #46000001
 end=$9 #4900000
-max_num_causal=$( if [ ! $10 = "" ]; then echo $10;  else echo 5;fi)
+max_num_causal=${10}
+if [ $max_num_causal = "" ]; then
+    max_num_causal = 5
+fi
+#max_num_causal=$( if [ ! $10 = "" ]; then echo $10;  else echo 5;fi)
 mininfo=${11} #0.6
 minmaf=${12} #0.001
 
