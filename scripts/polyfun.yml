@@ -23,5 +23,6 @@ dependencies:
   - pandas
   - r-expm
   - pandas-plink
-
-
+  - r-rcppziggurat
+  - r-rcppgsl
+  - r-rfast

@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+#conda install pandas 
+source  ~/.bashrc
+
 #Functionally informed fine mapping
 #Specifically, the fine-mapping script takes two types of inputs:
 #1. A summary statistics file with the following columns: SNP, CHR, BP, A1, A2, Z (Z-score),
@@ -158,3 +161,6 @@ fi
 #./pipeline.sh ~/pGWAS/data/AFR/boltlmm_sumstats.gz susie Null 327209 AFR 1 46000001 49000001 5
 #Teting with small file
 #~/pGWAS/./pipeline.sh ~/pGWAS/data/test_data/boltlmm_sumstats.gz finemap Null 327209 test_data 1 46000001 49000001 5
+
+conda deactivate
+

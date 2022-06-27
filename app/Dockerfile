@@ -10,10 +10,16 @@ RUN apt update
 
 # Create the environment:
 COPY polyfun.yml .
+SHELL ["/bin/bash", "-c"]
 RUN conda env create -f polyfun.yml
-RUN  conda activate pGWAS
-# Make RUN commands use the new environment:
-# RUN echo "conda activate pGWAS" >> ~/.bashrc
+RUN conda init bash
+#SHELL ["/bin/bash", "-c", "conda activate  pGWAS"]
+#RUN conda activate  pGWAS
+RUN echo "conda activate pGWAS" >> ~/.bashrc
+ENV PATH="$PATH:/opt/conda/envs/pGWAS/bin"
+ENV PATH="$PATH:/opt/conda/bin"
+
+
 
 #install node and npm
 ENV NODE_VERSION=16.13.0
@@ -40,4 +46,23 @@ RUN chmod 775 pipeline_scripts/pipeline.sh
 
 RUN npm run build
 
-CMD [ "npm", "run", "start:prod" ]
+
+####
+#RUN apt-get install -y r-cran-rcppgsl
+ RUN  R -e "install.packages('susieR',dependencies=TRUE, repos='http://cran.rstudio.com/')" 
+#RUN /opt/conda/bin/conda activate pGWAS
+
+
+
+# 
+
+ENV PATH="/opt/conda/envs/env/bin:$PATH"
+ENV PATH="/opt/conda/etc/profile.d:$PATH"
+
+RUN echo "source /opt/conda/etc/profile.d/conda.sh"  >> ~/.bashrc
+RUN echo "conda activate pGWAS" >> ~/.bashrc
+RUN source activate pGWAS
+# Temporarily disable strict mode and activate conda:
+#SHELL ["/bin/bash", "-c", "conda activate  pGWAS"]
+#CMD [ "npm", "run", "start:prod" ]
+CMD ["/bin/bash", "-c", "/app/pipeline_scripts/pipeline.sh"]
