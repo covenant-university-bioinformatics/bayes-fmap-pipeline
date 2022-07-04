@@ -1,25 +1,27 @@
-FROM continuumio/miniconda3
-
+From python:3.9
 ENV CI=true
 ENV PIP_IGNORE_INSTALLED=0
 
 WORKDIR /app
 
 #update linux packages
-RUN apt update
+RUN apt update && apt-get install -y --no-install-recommends &&  apt-get install -y ca-certificates
+RUN apt-get update && apt-get -y install r-base r-base-dev
 
-# Create the environment:
-COPY polyfun.yml .
-SHELL ["/bin/bash", "-c"]
-RUN conda env create -f polyfun.yml
-RUN conda init bash
-#SHELL ["/bin/bash", "-c", "conda activate  pGWAS"]
-#RUN conda activate  pGWAS
-RUN echo "conda activate pGWAS" >> ~/.bashrc
-ENV PATH="$PATH:/opt/conda/envs/pGWAS/bin"
-ENV PATH="$PATH:/opt/conda/bin"
+COPY requirements.txt  .
+RUN /usr/local/bin/python -m pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
 
+## R packages: r-devtools, rcpp
+RUN  R -e "install.packages(c('devtools','Rcpp','expm'),dependencies=TRUE, repos='http://cran.rstudio.com/')"
+RUN  R -e "install.packages(c('Ckmeans.1d.dp','wavethresh','RcppZiggurat', 'stringi','RcppGSL','Rfast','matrixStats'),dependencies=TRUE, repos='http://cran.rstudio.com/')"
+#RUN  R -e "install.packages('expm',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+#RUN  R -e "install.packages('expm',dependencies=TRUE, repos='http://cran.rstudio.com/')"
 
+COPY packages/susieR-0.8.0.tar.gz .
+
+RUN R CMD INSTALL  susieR-0.8.0.tar.gz
+RUN rm susieR-0.8.0.tar.gz
 
 #install node and npm
 ENV NODE_VERSION=16.13.0
@@ -46,23 +48,6 @@ RUN chmod 775 pipeline_scripts/pipeline.sh
 
 RUN npm run build
 
-
-####
-#RUN apt-get install -y r-cran-rcppgsl
- RUN  R -e "install.packages('susieR',dependencies=TRUE, repos='http://cran.rstudio.com/')" 
-#RUN /opt/conda/bin/conda activate pGWAS
-
-
-
-# 
-
-ENV PATH="/opt/conda/envs/env/bin:$PATH"
-ENV PATH="/opt/conda/etc/profile.d:$PATH"
-
-RUN echo "source /opt/conda/etc/profile.d/conda.sh"  >> ~/.bashrc
-RUN echo "conda activate pGWAS" >> ~/.bashrc
-RUN source activate pGWAS
-# Temporarily disable strict mode and activate conda:
-#SHELL ["/bin/bash", "-c", "conda activate  pGWAS"]
-#CMD [ "npm", "run", "start:prod" ]
-CMD ["/bin/bash", "-c", "/app/pipeline_scripts/pipeline.sh"]
+CMD [ "npm", "run", "start:prod" ]
+## testing with bind mount
+#CMD ["/bin/bash", "-c", "/app/pipeline_scripts/pipeline.sh"]
