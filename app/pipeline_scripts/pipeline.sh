@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 #conda install pandas 
-source  ~/.bashrc
 
 #Functionally informed fine mapping
 #Specifically, the fine-mapping script takes two types of inputs:
@@ -162,5 +161,5 @@ fi
 #Teting with small file
 #~/pGWAS/./pipeline.sh ~/pGWAS/data/test_data/boltlmm_sumstats.gz finemap Null 327209 test_data 1 46000001 49000001 5
 
-conda deactivate
+
 
